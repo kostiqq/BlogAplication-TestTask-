@@ -1,9 +1,12 @@
-﻿<!DOCTYPE html>
+﻿@using BlogAplication.ViewModels.NewsViewModels
+@model NewsViewModel
+@addTagHelper "*, BlogAplication"
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - BlogAplication_TestTask_</title>
+    <title>@ViewData["Title"] - BlogAplication</title>
 
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
@@ -26,15 +29,22 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">BlogAplication_TestTask_</a>
+                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">BlogAplication</a>
             </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
-                </ul>
-            </div>
+            <form method="get">
+                <div class="form-inline">
+                    <label class="control-label">Поиск: </label>
+                    @Html.TextBox("SearchString", Model.FilterViewModel.InputRequest, htmlAttributes: new { @class = "form-control" })
+                    <input type="submit" value="Фильтр" class="btn btn-default" />
+                </div>
+            </form>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li><a asp-area="" asp-controller="Account" asp-action="Login">Sign in</a></li>
+                        <li><a asp-area="" asp-controller="Account" asp-action="Register">Sign up</a></li>
+                        <li><a asp-area="" asp-controller="Account" asp-action="Contact">Contact</a></li>
+                    </ul>
+                </div>
         </div>
     </nav>
 
@@ -44,7 +54,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; 2019 - BlogAplication_TestTask_</p>
+            <p>&copy; 2019 - BlogAplication</p>
         </footer>
     </div>
 

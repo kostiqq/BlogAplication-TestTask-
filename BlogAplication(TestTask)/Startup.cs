@@ -7,10 +7,13 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using BlogAplication.Models;
+using BlogAplication.Services;
 
-namespace BlogAplication_TestTask_
+namespace BlogAplication
 {
     public class Startup
     {
@@ -24,15 +27,24 @@ namespace BlogAplication_TestTask_
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<CookiePolicyOptions>(options =>
-            {
-                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
-                options.CheckConsentNeeded = context => true;
-                options.MinimumSameSitePolicy = SameSiteMode.None;
-            });
+            string connection = Configuration.GetConnectionString("DefaultConnection");
+            string connection2 = Configuration.GetConnectionString("DbUsers");
+            services.AddDbContext<UserContext>(options => options.UseSqlServer(connection2));
+            services.AddDbContext<NewsContext>(options => options.UseSqlServer(connection));
+            //services.Configure<CookiePolicyOptions>(options =>
+            //{
+            //    // This lambda determines whether user consent for non-essential cookies is needed for a given request.
+            //    options.CheckConsentNeeded = context => true;
+            //    options.MinimumSameSitePolicy = SameSiteMode.None;
 
+            //    //options.EnableEndpointRouting = false;
+            //});
+            services.AddTransient<NewsService>();
+            //services.AddTransient<AccountContext>();
+            //services.AddScoped<NewsService, MemoryRepository>();
+            services.AddMvc();
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            //services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,12 +57,13 @@ namespace BlogAplication_TestTask_
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-                app.UseHsts();
+                //app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseCookiePolicy();
+            //app.UseCookiePolicy();
+
 
             app.UseMvc(routes =>
             {

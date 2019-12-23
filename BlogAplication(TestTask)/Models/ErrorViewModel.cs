@@ -1,6 +1,6 @@
 using System;
 
-namespace BlogAplication_TestTask_.Models
+namespace BlogAplication.Models
 {
     public class ErrorViewModel
     {
