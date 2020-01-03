@@ -4,16 +4,30 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @model NewsViewModel
+@addTagHelper "*, BlogAplication"
 
-<!DOCTYPE html>
+<title>Новости</title>
+    <link rel="stylesheet" href="/css/style.css">
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Новости</title>
-</head>
-<body>
-    <div>
+        <form>
+            <p>
+                <label class="control-label">Search: </label>
+                @Html.TextBox("SearchString", Model.FilterViewModel.InputRequest, htmlAttributes: new { @class = "form-control" })
+                <input type="submit" value="Filter" class="btn btn-default" />
+            </p>
+            <p>
+                <label class="control-label ">Start date:</label>
+                <label class="control-label control-label-indent">Final date: </label>
+                <br>
+                @Html.TextBox("firstDate", Model.FilterViewModel.SelectedFirstDate.Date.ToString("yyyy-dd-MM"), htmlAttributes: new { @class = "form-control form-control-new", @type = "date" })
+                @Html.TextBox("secondDate", Model.FilterViewModel.SelectedSecondDate.Date.ToString("yyyy-dd-MM"), htmlAttributes: new { @class = "form-control form-control-new", @type = "date" })
+                <br>
+                <input type="submit" value="Filter" class="btn btn-default" />
+            </p>
+
+
+        </form>
+
         <h3>Новостная лента</h3>
         <table>
             <tr>
@@ -36,10 +50,15 @@
                     <td><p>@a.CategoryID</p></td>
                     <td><p>@a.Tags</p></td>
                     <td><p>@a.Date</p></td>
-                  @*<td><p><a href="/Home/Buy/@b.Id">Купить</a></p></td>*@
                 </tr>
-             }
+            }
+            @if (User.IsInRole("admin"))
+            {
+                <td>
+                    @Html.ActionLink("Edit", "EditNews", new { id = News.Id }, null) |
+                    @Html.ActionLink("Delete", "DeleteNews", new { id = News.Id }, null)
+                </td>
+            }
         </table>
-    </div>
-</body>
-</html>
+<page-link page-model="Model.PageViewModel" page-action="Index"></page-link>
+

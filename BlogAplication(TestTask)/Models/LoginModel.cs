@@ -15,6 +15,6 @@ namespace BlogAplication.Models
 
         [Required(ErrorMessage = "Password required")]
         [DataType(DataType.Password)]
-        public string Password { get; set; }
+        public string Pass { get; set; }
     }
 }

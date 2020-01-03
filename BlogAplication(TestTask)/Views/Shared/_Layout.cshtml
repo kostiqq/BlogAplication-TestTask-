@@ -31,13 +31,6 @@
                 </button>
                 <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">BlogAplication</a>
             </div>
-            <form method="get">
-                <div class="form-inline">
-                    <label class="control-label">Поиск: </label>
-                    @Html.TextBox("SearchString", Model.FilterViewModel.InputRequest, htmlAttributes: new { @class = "form-control" })
-                    <input type="submit" value="Фильтр" class="btn btn-default" />
-                </div>
-            </form>
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
                         <li><a asp-area="" asp-controller="Account" asp-action="Login">Sign in</a></li>

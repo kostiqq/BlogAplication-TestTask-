@@ -8,7 +8,7 @@ namespace BlogAplication.Models
         {
             Database.EnsureCreated();
         }
-        public DbSet<Role> Roles { get; set; }
+        public DbSet<Roles> Roles { get; set; }
         public DbSet<User> Users { get; set; }
     }
 }

@@ -51,20 +51,19 @@ namespace BlogAplication.Services
             {
                 source = source.Where(p => p.Name.Contains(SearchString) || p.Tags.Contains(SearchString));
             }
-                
-                if (firstDate != null || secondDate != null)
-                {
-                    source = source.Where(p => p.Date >= first && p.Date <= second);
-                }
-                var count = source.Count();
-                var items = source.Skip((page - 1) * pageSize).Take(pageSize).ToList();
-                PageViewModel pageViewModel = new PageViewModel(count, page, pageSize);
-                news = new NewsViewModel
-                {
-                    News = items,
-                    PageViewModel = pageViewModel,
-                    FilterViewModel = new NewsFilterViewModel(SearchString, first, second)
-                };  
+            if (firstDate != null || secondDate != null)
+            {
+                source = source.Where(p => p.Date >= first && p.Date <= second);
+            }
+            var count = source.Count();
+            var items = source.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+            PageViewModel pageViewModel = new PageViewModel(count, page, pageSize);
+            news = new NewsViewModel
+            {
+                News = items,
+                PageViewModel = pageViewModel,
+                FilterViewModel = new NewsFilterViewModel(SearchString, first, second)
+            };  
             return news;
         }
     }

@@ -10,10 +10,10 @@ namespace BlogAplication.Models
 
         [Required(ErrorMessage = "Password required")]
         [DataType(DataType.Password)]
-        public string Password { get; set; }
+        public string Pass { get; set; }
 
         [DataType(DataType.Password)]
-        [Compare("Password", ErrorMessage = "Passwords must match ")]
+        [Compare("Pass", ErrorMessage = "Passwords must match ")]
         public string ConfirmPassword { get; set; }
     }
 }

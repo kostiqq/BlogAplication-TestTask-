@@ -32,8 +32,8 @@ namespace BlogAplication.Controllers
                 if (user == null)
                 {
                     // add user in db
-                    user = new User { Email = model.Email, Password = model.Password };
-                    Role userRole = await _context.Roles.FirstOrDefaultAsync(r => r.Name == "user");
+                    user = new User { Email = model.Email, Pass = model.Pass };
+                    Roles userRole = await _context.Roles.FirstOrDefaultAsync(r => r.Role == "user");
                     if (userRole != null)
                         user.Role = userRole;
 
@@ -62,7 +62,7 @@ namespace BlogAplication.Controllers
             {
                 User user = await _context.Users
                     .Include(u => u.Role)
-                    .FirstOrDefaultAsync(u => u.Email == model.Email && u.Password == model.Password);
+                    .FirstOrDefaultAsync(u => u.Email == model.Email && u.Pass == model.Pass);
                 if (user != null)
                 {
                     await Authenticate(user);
@@ -78,7 +78,7 @@ namespace BlogAplication.Controllers
             var claims = new List<Claim>
             {
                 new Claim(ClaimsIdentity.DefaultNameClaimType, user.Email),
-                new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Role?.Name)
+                new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Role?.Role)
             };
             ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType,
                 ClaimsIdentity.DefaultRoleClaimType);

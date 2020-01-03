@@ -12,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using BlogAplication.Models;
 using BlogAplication.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace BlogAplication
 {
@@ -39,6 +40,18 @@ namespace BlogAplication
 
             //    //options.EnableEndpointRouting = false;
             //});
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+               .AddCookie(options =>
+               {
+                   options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
+                   options.AccessDeniedPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
+               });
+            services.AddDistributedMemoryCache();
+            services.AddSession(options =>
+            {
+                options.Cookie.Name = ".MyApp.Session";
+                options.IdleTimeout = TimeSpan.FromSeconds(3600);
+            });
             services.AddTransient<NewsService>();
             //services.AddTransient<AccountContext>();
             //services.AddScoped<NewsService, MemoryRepository>();

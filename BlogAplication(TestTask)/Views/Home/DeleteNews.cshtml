@@ -1,0 +1,35 @@
+﻿@using BlogAplication.ViewModels.NewsViewModels;
+
+@{
+    ViewData["Title"] = "Delete News";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+    <table>
+        <tr>
+            <td><p>Заголовок</p></td>
+            <td><p>Кратко</p></td>
+            <td><p>Описание</p></td>
+            <td><p>картинка</p></td>
+            <td><p>Категория</p></td>
+            <td><p>Тэги</p></td>
+            <td><p>Дата</p></td>
+            <td></td>
+        </tr>
+        @foreach (var a in Model.News)
+        {
+            <tr>
+                <td><p>@a.Name</p></td>
+                <td><p>@a.ShortDesc</p></td>
+                <td><p>@a.Description</p></td>
+                <td><p>@a.ImageLink</p></td>
+                <td><p>@a.CategoryID</p></td>
+                <td><p>@a.Tags</p></td>
+                <td><p>@a.Date</p></td>
+            </tr>
+        }
+        <form asp-action="DeleteNews">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            <a asp-action="Index">Back to List</a>
+        </form>
+    </table>

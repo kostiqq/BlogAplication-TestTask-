@@ -2,12 +2,12 @@
 
 namespace BlogAplication.Models
 {
-    public class Role
+    public class Roles
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+        public string Role { get; set; }
         public List<User> Users { get; set; }
-        public Role()
+        public Roles()
         {
             Users = new List<User>();
         }

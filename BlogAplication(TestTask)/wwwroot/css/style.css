@@ -1,0 +1,62 @@
+﻿div {
+    color: azure;
+}
+
+body {
+    background-image: url(https://cs9.pikabu.ru/post_img/big/2019/02/04/4/1549258093120290857.jpg);
+}
+
+label {
+    color: azure;
+    font: serif;
+    font-size: 20px;
+    margin-top: 10px
+}
+
+
+input.btn-default, .btn{
+    font-size: 16px;
+    color: DarkOliveGreen;
+    width: 120px;
+    padding: .3em 1.5em;
+    margin-top: 8px;
+    margin-bottom: 10px;
+}
+
+input.btn-default:hover {
+    background: Honeydew;
+}
+.btn:hover {
+    background: Honeydew;
+}
+.form-control {
+    height: auto;
+    color: black;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size:20px;
+}
+.form-control-input {
+    width: 300px;
+}
+
+.form-control-new {
+    width: auto;
+    display: inline;
+}
+
+.control-label-indent {
+    margin-left: 60px;
+}
+
+h2 {
+    font-family: serif;
+}
+a.font-registration {
+    color: palegreen;
+    font-family: serif;
+    font-size:20px;
+}
+a{
+    font-family: cursive;
+}
+
