@@ -9,56 +9,53 @@
 <title>Новости</title>
     <link rel="stylesheet" href="/css/style.css">
 
-        <form>
-            <p>
-                <label class="control-label">Search: </label>
-                @Html.TextBox("SearchString", Model.FilterViewModel.InputRequest, htmlAttributes: new { @class = "form-control" })
-                <input type="submit" value="Filter" class="btn btn-default" />
-            </p>
-            <p>
-                <label class="control-label ">Start date:</label>
-                <label class="control-label control-label-indent">Final date: </label>
-                <br>
-                @Html.TextBox("firstDate", Model.FilterViewModel.SelectedFirstDate.Date.ToString("yyyy-dd-MM"), htmlAttributes: new { @class = "form-control form-control-new", @type = "date" })
-                @Html.TextBox("secondDate", Model.FilterViewModel.SelectedSecondDate.Date.ToString("yyyy-dd-MM"), htmlAttributes: new { @class = "form-control form-control-new", @type = "date" })
-                <br>
-                <input type="submit" value="Filter" class="btn btn-default" />
-            </p>
-
-
-        </form>
-
-        <h3>Новостная лента</h3>
-        <table>
+    <form>
+        <p>
+           
+            <label class="control-label ">Search: </label>
+            <label class="control-label control-labelStart ">Start date:</label>
+            <label class="control-label control-label-indent">Final date: </label> <br>
+            @Html.TextBox("SearchString", Model.FilterViewModel.InputRequest, htmlAttributes: new { @class = "form-control " })
+            @Html.TextBox("firstDate", Model.FilterViewModel.SelectedFirstDate.Date.ToString("yyyy-dd-MM"), htmlAttributes: new { @class = "form-control form-control-new form-control-margin", @type = "date" })
+            @Html.TextBox("secondDate", Model.FilterViewModel.SelectedSecondDate.Date.ToString("yyyy-dd-MM"), htmlAttributes: new { @class = "form-control form-control-new form-control-marginSecondDate", @type = "date" })<br>
+            <input type="submit" value="Filter" class="btn btn-default" />
+            <input type="submit" value="Filter" class="btn btn-default btn-filter-data-margin" />
+        </p>
+    </form>
+    <table>
+        @foreach (var a in Model.News)
+        {
             <tr>
-                <td><p>Заголовок</p></td>
-                <td><p>Кратко</p></td>
-                <td><p>Описание</p></td>
-                <td><p>картинка</p></td>
-                <td><p>Категория</p></td>
-                <td><p>Тэги</p></td>
-                <td><p>Дата</p></td>
-                <td></td>
-            </tr>
-            @foreach (var a in Model.News)
-            {
-                <tr>
-                    <td><p>@a.Name</p></td>
-                    <td><p>@a.ShortDesc</p></td>
-                    <td><p>@a.Description</p></td>
-                    <td><p>@a.ImageLink</p></td>
-                    <td><p>@a.CategoryID</p></td>
-                    <td><p>@a.Tags</p></td>
-                    <td><p>@a.Date</p></td>
-                </tr>
-            }
-            @if (User.IsInRole("admin"))
-            {
-                <td>
-                    @Html.ActionLink("Edit", "EditNews", new { id = News.Id }, null) |
-                    @Html.ActionLink("Delete", "DeleteNews", new { id = News.Id }, null)
+                <td rowspan="5">
+                    <p id="img">
+                        <script>
+                                document.getElementById('img').innerHTML = '<img src = "@a.ImageLink"/>';
+                        </script>
+
+                    </p>
                 </td>
-            }
-        </table>
+            </tr>
+            <tr>
+
+                <td><p class="newsTag">@a.Tags</p></td>
+            </tr>
+            <tr><td><p class="NameOfst">@a.Name</p></td></tr>
+
+            <tr>
+                <td><p class="newsDescription">@a.ShortDesc</p></td>
+            </tr>
+            <tr>
+                <td><p class="newsDateandCaregory">@a.Date  |  @a.Category.CategoryName</p></td>
+            </tr>
+            <tr>
+                <td>
+                    Actions
+                    @Html.ActionLink("Create", "CreateNews", new { id = a.Id }, null)|
+                    @Html.ActionLink("Edit", "EditNews", new { id = a.Id }, null) |
+                    @Html.ActionLink("Delete", "DeleteNews", new { id = a.Id }, null)
+                </td>
+            </tr>
+        }
+    </table>
 <page-link page-model="Model.PageViewModel" page-action="Index"></page-link>
 

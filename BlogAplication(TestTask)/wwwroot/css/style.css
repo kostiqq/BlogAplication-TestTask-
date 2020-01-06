@@ -1,28 +1,44 @@
-﻿div {
-    color: azure;
-}
-
-body {
-    background-image: url(https://cs9.pikabu.ru/post_img/big/2019/02/04/4/1549258093120290857.jpg);
-}
-
-label {
-    color: azure;
+﻿label {
     font: serif;
-    font-size: 20px;
+    font-size: 16px;
     margin-top: 10px
 }
+p.NameOfst {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 35px;
+}
+p.newsTag {
+    color: grey;
+    font-size: 15px;
+    margin-bottom: 0px;
+}
+p.newsDescription{
+    font-size:20px;
+}
+p.newsDateandCaregory{
+    margin-top:5px;
+}
+img {
+    display: inline;
+    object-position:center;
+    height: 300px;
+    width: 500px;
+    object-fit: cover;
+    margin-right: 30px;
+}
 
-
-input.btn-default, .btn{
+input.btn-default, .btn {
     font-size: 16px;
-    color: DarkOliveGreen;
-    width: 120px;
+    width: 400px;
     padding: .3em 1.5em;
     margin-top: 8px;
     margin-bottom: 10px;
 }
-
+.form-control-border{
+    margin-right: 700px;
+    border-right: 3px solid black;
+    height: 200px;
+}
 input.btn-default:hover {
     background: Honeydew;
 }
@@ -30,32 +46,51 @@ input.btn-default:hover {
     background: Honeydew;
 }
 .form-control {
+    width: 400px;
     height: auto;
     color: black;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    font-size:20px;
+    font-size: 20px;
+    display: inline;
 }
 .form-control-input {
     width: 300px;
+}
+
+.control-labelStart{
+    margin-left: 540px;
+}
+.btn-filter-data-margin
+{
+    margin-left: 200px;
+}
+.form-control-marginSecondDate{
+    margin-left:93px;
 }
 
 .form-control-new {
     width: auto;
     display: inline;
 }
+.form-control-margin
+{
+    margin-left:200px;
+}
 
 .control-label-indent {
-    margin-left: 60px;
+    margin-left: 170px;
 }
 
 h2 {
     font-family: serif;
 }
+
 a.font-registration {
-    color: palegreen;
+    color: green;
     font-family: serif;
     font-size:20px;
 }
+
 a{
     font-family: cursive;
 }

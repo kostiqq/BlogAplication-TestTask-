@@ -11,6 +11,7 @@ using BlogAplication.Services;
 using BlogAplication.ViewModels.NewsViewModels;
 using BlogAplication.ViewModels.ProcedureViewModels;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace BlogAplication.Controllers
 {
@@ -21,9 +22,6 @@ namespace BlogAplication.Controllers
         private readonly UserContext dbUsers;
         private NewsService newsService;
 
-        private string firstDate = "01.01.2019", secondDateN = "31.01.2090";
-        private int pageN = 1;
-
         public HomeController(NewsContext dbn, UserContext dbu, NewsService newsService)
         {
             dbNews = dbn;
@@ -31,24 +29,10 @@ namespace BlogAplication.Controllers
             this.newsService = newsService;
         }
 
-        public ActionResult Index(string? SearchString, DateTime firstDate, DateTime secondDate, string d0 = "01.01.1970", string d = "01.01.2030", int page = 1)
+        public ActionResult Index(int? category, string? SearchString, string firstDate= "01.01.2019", string secondDate="31.01.2030", int page = 1)
         {
-            int pageSize = 1;
-            List<object[]> source = new List<object[]>();
-
-            IEnumerable<News> newse = dbNews.news;
-
-            ViewBag.News = newse;
-            var count = dbNews.news.Count();
-            var items = dbNews.news.Skip((page - 1) * pageSize).Take(pageSize).ToList();
-            PageViewModel pageViewModel = new PageViewModel(count, page, pageSize);
-            NewsViewModel viewModel = new NewsViewModel
-            {
-                FilterViewModel = new NewsFilterViewModel(SearchString, firstDate, secondDate),
-                PageViewModel = pageViewModel,
-                News = items,
-            };
-            return View(viewModel);
+            NewsViewModel news = newsService.GetNews(category, SearchString, firstDate,secondDate,page);
+            return View(news);
         }
 
         [HttpGet]

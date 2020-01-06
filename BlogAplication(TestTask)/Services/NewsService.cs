@@ -17,18 +17,10 @@ namespace BlogAplication.Services
         {
             this.context = context;
         }
-        public NewsViewModel GetNews(string? SearchString, string firstDate, string secondDate, int page)
+        public NewsViewModel GetNews(int? category, string? SearchString, string firstDate, string secondDate, int page)
         {
             DateTime first, second;
             NewsViewModel news = null;
-            News _news = new News
-            {
-                Name = "",
-                ShortDesc = "",
-                Description = "",
-                Tags = "",
-                ImageLink=""
-            };
             try
             {
                 first = Convert.ToDateTime(firstDate);
@@ -43,20 +35,22 @@ namespace BlogAplication.Services
             }
             catch
             {
-                second = Convert.ToDateTime("10.01.2091");
+                second = Convert.ToDateTime("10.01.2030");
             }
             int pageSize = 10;
             IQueryable<News> source = context.news;
             if (SearchString != null)
             {
-                source = source.Where(p => p.Name.Contains(SearchString) || p.Tags.Contains(SearchString));
+                firstDate = null;
+                secondDate = null;
+                source = source.Where(p => p.Category.CategoryName.Contains(SearchString) || p.Tags.Contains(SearchString));
             }
             if (firstDate != null || secondDate != null)
             {
                 source = source.Where(p => p.Date >= first && p.Date <= second);
             }
             var count = source.Count();
-            var items = source.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+            var items = source.Include(p => p.Category).Skip((page - 1) * pageSize).Take(pageSize).ToList();
             PageViewModel pageViewModel = new PageViewModel(count, page, pageSize);
             news = new NewsViewModel
             {

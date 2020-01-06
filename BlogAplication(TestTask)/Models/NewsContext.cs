@@ -8,7 +8,7 @@ namespace BlogAplication.Models
         {
             Database.EnsureCreated();
         }
-        public DbSet<Category> Categories { get; set; }
+        public DbSet<Category> Category { get; set; }
         public DbSet<News> news { get; set; }
 
     }
