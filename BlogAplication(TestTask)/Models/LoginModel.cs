@@ -1,20 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace BlogAplication.Models
 {
     public class LoginModel
     {
-
         [Required(ErrorMessage = "Email required")]
-        [RegularExpression(@"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}", ErrorMessage = "Please type correct email")]
+        [Display(Name = "Email")]
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Password required")]
         [DataType(DataType.Password)]
-        public string Pass { get; set; }
+        [Display(Name = "Password")]
+        public string Password { get; set; }
+
+        [Display(Name = "Remember me?")]
+        public bool RememberMe { get; set; }
+        public string ReturnUrl { get; set; }
     }
 }

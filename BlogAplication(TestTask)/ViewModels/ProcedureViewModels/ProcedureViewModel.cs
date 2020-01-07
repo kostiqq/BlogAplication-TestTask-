@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using BlogAplication.ViewModels.ProcedureViewModels;
+﻿using System.Collections.Generic;
 
 namespace BlogAplication.ViewModels.ProcedureViewModels
 {

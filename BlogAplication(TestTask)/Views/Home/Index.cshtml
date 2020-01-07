@@ -1,4 +1,4 @@
-﻿@using BlogAplication.ViewModels.NewsViewModels;
+﻿@using BlogAplication.ViewModels.NewsViewModels
 @{
     ViewData["Title"] = "Home Page";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -48,12 +48,14 @@
                 <td><p class="newsDateandCaregory">@a.Date  |  @a.Category.CategoryName</p></td>
             </tr>
             <tr>
+                @if (User.IsInRole("admin"))
+                {
                 <td>
                     Actions
-                    @Html.ActionLink("Create", "CreateNews", new { id = a.Id }, null)|
-                    @Html.ActionLink("Edit", "EditNews", new { id = a.Id }, null) |
-                    @Html.ActionLink("Delete", "DeleteNews", new { id = a.Id }, null)
+                    @Html.ActionLink("Edit", "EditNews","Home", new { id = a.Id }, null) |
+                    @Html.ActionLink("Delete", "DeleteNews","Home", new { id = a.Id }, null)
                 </td>
+                }
             </tr>
         }
     </table>

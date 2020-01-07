@@ -1,11 +1,9 @@
-﻿namespace BlogAplication.Models
-{
-    public class User
-    {
-        public int Id { get; set; }
-        public string Email { get; set; }
-        public string Pass { get; set; }
+﻿using Microsoft.AspNetCore.Identity;
 
+namespace BlogAplication.Models
+{
+    public class User : IdentityUser
+    {
         public int? RoleId { get; set; }
         public Roles Role { get; set; }
     }

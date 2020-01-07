@@ -1,18 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using BlogAplication.Models;
 using BlogAplication.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 
 namespace BlogAplication
 {
@@ -32,19 +28,24 @@ namespace BlogAplication
             string connection2 = Configuration.GetConnectionString("DbUsers");
             services.AddDbContext<UserContext>(options => options.UseSqlServer(connection2));
             services.AddDbContext<NewsContext>(options => options.UseSqlServer(connection));
-            //services.Configure<CookiePolicyOptions>(options =>
-            //{
-            //    // This lambda determines whether user consent for non-essential cookies is needed for a given request.
-            //    options.CheckConsentNeeded = context => true;
-            //    options.MinimumSameSitePolicy = SameSiteMode.None;
+            services.AddIdentity<User, IdentityRole>()
+                .AddEntityFrameworkStores<UserContext>();
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
+                options.CheckConsentNeeded = context => true;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
 
-            //    //options.EnableEndpointRouting = false;
-            //});
+
+            });
+            //services.Configure<PasswordHasherOptions>(options =>
+            //    options.CompatibilityMode = PasswordHasherCompatibilityMode.IdentityV2
+            //    );
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                .AddCookie(options =>
                {
-                   options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
-                   options.AccessDeniedPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
+                   options.LoginPath = new PathString("/Account/Login");
+                   //options.AccessDeniedPath = new PathString("/Account/Login");
                });
             services.AddDistributedMemoryCache();
             services.AddSession(options =>
@@ -53,14 +54,12 @@ namespace BlogAplication
                 options.IdleTimeout = TimeSpan.FromSeconds(3600);
             });
             services.AddTransient<NewsService>();
-            //services.AddTransient<AccountContext>();
-            //services.AddScoped<NewsService, MemoryRepository>();
+            services.AddMemoryCache();
             services.AddMvc();
-
-            //services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        [Obsolete]
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
@@ -70,20 +69,24 @@ namespace BlogAplication
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-                //app.UseHsts();
+                app.UseHsts();
             }
 
-            //app.UseHttpsRedirection();
+
             app.UseStaticFiles();
-            //app.UseCookiePolicy();
+            app.UseRouting();
+            app.UseSession();
+            app.UseAuthorization();
+            app.UseAuthentication();
 
-
-            app.UseMvc(routes =>
+            app.UseHttpsRedirection();
+            app.UseEndpoints(endpoints =>
             {
-                routes.MapRoute(
+                endpoints.MapControllerRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
             });
+
         }
     }
 }

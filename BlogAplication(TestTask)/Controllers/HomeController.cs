@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using BlogAplication.Models;
 using Microsoft.AspNetCore.Authorization;
-using BlogAplication.ViewModels;
 using BlogAplication.Services;
 using BlogAplication.ViewModels.NewsViewModels;
-using BlogAplication.ViewModels.ProcedureViewModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -17,15 +12,16 @@ namespace BlogAplication.Controllers
 {
     public class HomeController : Controller
     {
-        // создаем контекст данных
         private readonly NewsContext dbNews;
-        private readonly UserContext dbUsers;
         private NewsService newsService;
 
+        private NewsDisplay _news = new NewsDisplay
+        {
+            Category= ""
+        };
         public HomeController(NewsContext dbn, UserContext dbu, NewsService newsService)
         {
             dbNews = dbn;
-            dbUsers = dbu;
             this.newsService = newsService;
         }
 
@@ -39,10 +35,19 @@ namespace BlogAplication.Controllers
         [Authorize(Roles="admin")]
         public ActionResult EditNews(int? id)
         {
-            News news = dbNews.news.Find(id);
+            var newsContext = dbNews.news.Include(p => p.Category);
+            var items = newsContext.Where(p => p.Id == id).ToList();
+            var category = new SelectList(dbNews.Category, "CategoryID", "CategoryName", items.First().CategoryID);
+            NewsViewModel news = new NewsViewModel
+            {
+                newsDisplay= _news,
+                News = items,
+                CategoryList = category
+            };
             return View(news);
         }
         [HttpPost]
+        [Authorize(Roles = "admin")]
         public ActionResult EditNews(News news)
         {
             dbNews.news.Update(news);

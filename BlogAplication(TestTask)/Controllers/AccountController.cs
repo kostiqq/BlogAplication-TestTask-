@@ -1,21 +1,22 @@
-﻿using System.Collections.Generic;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using BlogAplication.Models;
+using Microsoft.AspNetCore.Identity;
 
 
 namespace BlogAplication.Controllers
 {
     public class AccountController : Controller
     {
+        private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
         private UserContext _context;
-        public AccountController(UserContext context)
+        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, UserContext context)
         {
+            _userManager = userManager;
+            _signInManager = signInManager;
             _context = context;
+
         }
         [HttpGet]
         public IActionResult Register()
@@ -23,71 +24,63 @@ namespace BlogAplication.Controllers
             return View();
         }
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterModel model)
         {
             if (ModelState.IsValid)
             {
-                User user = await _context.Users.FirstOrDefaultAsync(u => u.Email == model.Email);
-                if (user == null)
+                User user = new User { Email = model.Email, UserName = model.Email };
+                var result = await _userManager.CreateAsync(user, model.Password);
+                if (result.Succeeded)
                 {
-                    // add user in db
-                    user = new User { Email = model.Email, Pass = model.Pass };
-                    Roles userRole = await _context.Roles.FirstOrDefaultAsync(r => r.Role == "user");
-                    if (userRole != null)
-                        user.Role = userRole;
 
-                    _context.Users.Add(user);
-                    await _context.SaveChangesAsync();
-
-                    await Authenticate(user); 
-
+                    await _signInManager.SignInAsync(user, false);
                     return RedirectToAction("Index", "Home");
+
                 }
                 else
-                    ModelState.AddModelError("", "Incorrect username or password. ");
+                {
+                    ModelState.AddModelError("", "Неккоректный email и(или) пароль");
+                }
             }
             return View(model);
         }
+
         [HttpGet]
         public IActionResult Login()
         {
             return View();
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginModel model)
         {
             if (ModelState.IsValid)
             {
-                User user = await _context.Users
-                    .Include(u => u.Role)
-                    .FirstOrDefaultAsync(u => u.Email == model.Email && u.Pass == model.Pass);
-                if (user != null)
+                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
+                if (result.Succeeded)
                 {
-                    await Authenticate(user);
-
                     return RedirectToAction("Index", "Home");
                 }
-                ModelState.AddModelError("", "Incorrect username or password. ");
+                else
+                {
+                    ModelState.AddModelError("", "Incorrect login or password ");
+                }
             }
-            return View(model);
-        }
-        private async Task Authenticate(User user)
-        {
-            var claims = new List<Claim>
+            else
             {
-                new Claim(ClaimsIdentity.DefaultNameClaimType, user.Email),
-                new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Role?.Role)
-            };
-            ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType,
-                ClaimsIdentity.DefaultRoleClaimType);
-            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
+                ModelState.AddModelError("", "Incorrect login or password ");
+            }
+        return View(model);
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
         {
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return RedirectToAction("Login", "Account");
+            //clean cookies
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Index","Home");
         }
     }
 }

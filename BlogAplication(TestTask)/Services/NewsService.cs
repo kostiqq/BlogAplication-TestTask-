@@ -1,9 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Caching.Memory;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using BlogAplication.Models;
 using BlogAplication.ViewModels;
 using BlogAplication.ViewModels.NewsViewModels;

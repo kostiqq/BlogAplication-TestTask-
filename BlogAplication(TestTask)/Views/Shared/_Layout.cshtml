@@ -1,6 +1,4 @@
-﻿@using BlogAplication.ViewModels.NewsViewModels
-@model NewsViewModel
-@addTagHelper "*, BlogAplication"
+﻿@addTagHelper "*, BlogAplication"
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,13 +29,26 @@
                 </button>
                 <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">BlogAplication</a>
             </div>
-                <div class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav">
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        @User.Identity.Name
+                        <form method="post" asp-controller="Account" asp-action="Logout">
+                            <input type="submit" value="Logout">
+                        </form>
+                    }
+                    else
+                    {
                         <li><a asp-area="" asp-controller="Account" asp-action="Login">Sign in</a></li>
                         <li><a asp-area="" asp-controller="Account" asp-action="Register">Sign up</a></li>
-                        <li><a asp-area="" asp-controller="Account" asp-action="Contact">Contact</a></li>
-                    </ul>
-                </div>
+                    }
+                    @if (User.IsInRole("admin")) 
+                    {
+                        @Html.ActionLink("Create", "CreateNews")
+                    }
+                </ul>
+            </div>
         </div>
     </nav>
 
