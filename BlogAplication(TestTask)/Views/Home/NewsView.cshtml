@@ -1,1 +1,66 @@
-﻿
+﻿@*@{
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+
+    
+    @Html.DisplayForModel()*@
+
+@model BlogAplication.Models.News
+@{
+    ViewData["Title"] = "NewsView";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link rel="stylesheet" href="/css/newwstyle.css">
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/styleForreg.css">
+<fieldset>
+    <legend>Article</legend>
+    <form>
+        <form>
+            <table class="newstable">
+                <tr>
+                    <td>
+
+                        <p id="img">
+                            <img src="@Model.ImageLink" />
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+
+                    <td><p class="newsTag">@Html.DisplayFor(model => model.Tags)</p></td>
+                </tr>
+                <tr><td><p class="NameOfst">@Html.DisplayFor(model => model.Name)</p></td></tr>
+
+                <tr>
+                    <td>
+                        <p class="newsDescription">
+                            @Html.DisplayFor(model => model.Description)
+
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="newsDateandCaregory">
+                            @Html.DisplayFor(model => model.Date) 
+
+                        </p>
+                    </td>
+                </tr>
+             
+                
+                
+
+            </table>
+
+        </form>
+
+    </form>
+</fieldset>
+
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>

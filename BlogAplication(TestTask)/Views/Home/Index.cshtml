@@ -5,59 +5,71 @@
 }
 @model NewsViewModel
 @addTagHelper "*, BlogAplication"
+<link rel="stylesheet" href="~/css/site.css" />
 
+<link rel="stylesheet" href="/css/style.css">
 <title>Новости</title>
-    <link rel="stylesheet" href="/css/style.css">
 
-    <form>
-        <p>
-           
-            <label class="control-label ">Search: </label>
-            <label class="control-label control-labelStart ">Start date:</label>
-            <label class="control-label control-label-indent">Final date: </label> <br>
-            @Html.TextBox("SearchString", Model.FilterViewModel.InputRequest, htmlAttributes: new { @class = "form-control " })
-            @Html.TextBox("firstDate", Model.FilterViewModel.SelectedFirstDate.Date.ToString("yyyy-dd-MM"), htmlAttributes: new { @class = "form-control form-control-new form-control-margin", @type = "date" })
-            @Html.TextBox("secondDate", Model.FilterViewModel.SelectedSecondDate.Date.ToString("yyyy-dd-MM"), htmlAttributes: new { @class = "form-control form-control-new form-control-marginSecondDate", @type = "date" })<br>
-            <input type="submit" value="Filter" class="btn btn-default" />
-            <input type="submit" value="Filter" class="btn btn-default btn-filter-data-margin" />
-        </p>
+<form>
+    <p>
+        <label class="control-label">Enter tag: </label><br>
+        @Html.TextBox("SearchString", Model.FilterViewModel.InputRequest, htmlAttributes: new { @class = "form-control " })
+        <br><input type="submit" value="Filter" class="btn btn-default" />
+
+    </p>
     </form>
-    <table>
-        @foreach (var a in Model.News)
-        {
-            <tr>
-                <td rowspan="5">
-                    <p id="img">
-                        <script>
-                                document.getElementById('img').innerHTML = '<img src = "@a.ImageLink"/>';
-                        </script>
+<form>
+    <p>
+        <label class="control-label ">Date span:</label><br>
+        @Html.TextBox("firstDate", Model.FilterViewModel.SelectedFirstDate.Date.ToString("yyyy-MM-dd"), htmlAttributes: new { @class = "form-control form-control-new ", @type = "date" })
+        <label class="control-label ">-</label>
+        @Html.TextBox("secondDate", Model.FilterViewModel.SelectedSecondDate.Date.ToString("yyyy-MM-dd"), htmlAttributes: new { @class = "form-control form-control-new ", @type = "date" })
+        <br><input type="submit" value="Filter" class="btn btn-default " />
+    </p>
+</form>
+<form asp-action="NewsView">
+@foreach (var a in Model.News)
+{
+    <table class="newstable">
+        <tr>
+            <td rowspan="5">
 
-                    </p>
-                </td>
-            </tr>
-            <tr>
+                <p id="img">
+                    <img src ="@a.ImageLink">
 
-                <td><p class="newsTag">@a.Tags</p></td>
-            </tr>
-            <tr><td><p class="NameOfst">@a.Name</p></td></tr>
+                </p>
+            </td>
+        </tr>
+        <tr>
 
-            <tr>
-                <td><p class="newsDescription">@a.ShortDesc</p></td>
-            </tr>
-            <tr>
-                <td><p class="newsDateandCaregory">@a.Date  |  @a.Category.CategoryName</p></td>
-            </tr>
-            <tr>
-                @if (User.IsInRole("admin"))
-                {
+            <td><p class="newsTag">@a.Tags</p></td>
+        </tr>
+        <tr><td><p  class="NameOfst">@a.Name</p></td></tr>
+
+        <tr>
+            <td><p class="newsDescription">
+    @a.ShortDesc
+    @*<input class="btn btn-default" type="submit" value="Далее" />*@
+
+    @Html.ActionLink("more details..", "NewsView", new {id=a.Id }, null)
+</p></td>
+        </tr>
+        <tr>
+            <td><p class="newsDateandCaregory">@a.Date  |  @a.Category.CategoryName</p></td>
+        </tr>
+        <tr>
+            @if (User.IsInRole("admin"))
+            {
                 <td>
                     Actions
-                    @Html.ActionLink("Edit", "EditNews","Home", new { id = a.Id }, null) |
-                    @Html.ActionLink("Delete", "DeleteNews","Home", new { id = a.Id }, null)
+                    @Html.ActionLink("Edit", "EditNews", new { id = a.Id }, null) |
+                    @Html.ActionLink("Delete", "DeleteNews", new { id = a.Id }, null)
                 </td>
-                }
-            </tr>
-        }
+            }
+        </tr>
     </table>
-<page-link page-model="Model.PageViewModel" page-action="Index"></page-link>
+}
+    </form>
 
+
+<page-link page-model="Model.PageViewModel" page-action="Index"></page-link>

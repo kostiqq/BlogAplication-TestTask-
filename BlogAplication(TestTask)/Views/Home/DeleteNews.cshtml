@@ -1,35 +1,43 @@
-﻿@using BlogAplication.ViewModels.NewsViewModels;
+﻿@model BlogAplication.Models.News;
 
 @{
     ViewData["Title"] = "Delete News";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
 }
-    <table>
-        <tr>
-            <td><p>Заголовок</p></td>
-            <td><p>Кратко</p></td>
-            <td><p>Описание</p></td>
-            <td><p>картинка</p></td>
-            <td><p>Категория</p></td>
-            <td><p>Тэги</p></td>
-            <td><p>Дата</p></td>
-            <td></td>
-        </tr>
-        @foreach (var a in Model.News)
-        {
-            <tr>
-                <td><p>@a.Name</p></td>
-                <td><p>@a.ShortDesc</p></td>
-                <td><p>@a.Description</p></td>
-                <td><p>@a.ImageLink</p></td>
-                <td><p>@a.CategoryID</p></td>
-                <td><p>@a.Tags</p></td>
-                <td><p>@a.Date</p></td>
-            </tr>
-        }
-        <form asp-action="DeleteNews">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            <a asp-action="Index">Back to List</a>
-        </form>
-    </table>
+<link rel="stylesheet" href="~/css/site.css" />
+
+<link rel="stylesheet" href="~/css/style.css" />
+<link rel="stylesheet" href="~/css/newwstyle.css" />
+<form>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ShortDesc)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ShortDesc)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ImageLink)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ImageLink)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Date)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Date)
+        </dd>
+    </dl>
+</form>
+<form asp-action="DeleteNews">
+    <input type="submit" value="Delete" class="btn btn-default" /> |
+    <a asp-action="Index">Back to List</a>
+</form>

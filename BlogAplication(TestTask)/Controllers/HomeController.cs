@@ -14,12 +14,7 @@ namespace BlogAplication.Controllers
     {
         private readonly NewsContext dbNews;
         private NewsService newsService;
-
-        private NewsDisplay _news = new NewsDisplay
-        {
-            Category= ""
-        };
-        public HomeController(NewsContext dbn, UserContext dbu, NewsService newsService)
+        public HomeController(NewsContext dbn, NewsService newsService)
         {
             dbNews = dbn;
             this.newsService = newsService;
@@ -32,31 +27,26 @@ namespace BlogAplication.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles="admin")]
         public ActionResult EditNews(int? id)
         {
-            var newsContext = dbNews.news.Include(p => p.Category);
-            var items = newsContext.Where(p => p.Id == id).ToList();
-            var category = new SelectList(dbNews.Category, "CategoryID", "CategoryName", items.First().CategoryID);
-            NewsViewModel news = new NewsViewModel
-            {
-                newsDisplay= _news,
-                News = items,
-                CategoryList = category
-            };
+            News news = dbNews.news.Find(id);
+            SelectList categories = new SelectList(dbNews.Category, "Id", "CategoryName", news.CategoryID);
+            ViewBag.Categories = categories;
             return View(news);
         }
         [HttpPost]
-        [Authorize(Roles = "admin")]
         public ActionResult EditNews(News news)
         {
-            dbNews.news.Update(news);
-            dbNews.SaveChanges();
-            return RedirectToAction("Index");
+            if (ModelState.IsValid)
+            {
+                dbNews.news.Update(news);
+                dbNews.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            else return View(news);
         }
 
         [HttpGet]
-        [Authorize(Roles="admin")]
         [ActionName("DeleteNews")]
         public ActionResult ConfirmDeleteNews(int id)
         {
@@ -75,41 +65,36 @@ namespace BlogAplication.Controllers
             return RedirectToAction("Index");
         }
         [HttpGet]
-        [Authorize(Roles="admin")]
         public IActionResult CreateNews()
         {
+            SelectList categories = new SelectList(dbNews.Category, "Id", "CategoryName");
+            ViewBag.Categories = categories;
             return View();
         }
         [HttpPost]
         public ActionResult CreateNews(News news)
         {
-            dbNews.news.Add(news);
-            dbNews.SaveChanges();
+            if (ModelState.IsValid)
+            {
+                dbNews.news.Add(news);
+                dbNews.SaveChanges();
+                RedirectToAction("Index");
+            }
             return View(news);
         }
-        public IActionResult About()
-        {
-            ViewData["Message"] = "Your application description page.";
-
-            return View();
-        }
-
-        public IActionResult Contact()
-        {
-            ViewData["Message"] = "Your contact page.";
-
-            return View();
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+        public ActionResult NewsView(int id)
+        {
+            var news = dbNews.news.Find(id);
+            if (news != null)
+            {
+                return View(news);
+            }
+            return RedirectToAction("Index");
         }
     }
 }

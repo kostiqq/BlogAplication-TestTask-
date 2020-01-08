@@ -1,0 +1,101 @@
+﻿
+body {
+    width: 100%;
+    min-width: 1024px;
+}
+
+    .userident {
+        cursor: default;
+     text-decoration: none;
+    color: white;
+    font-size: 15px;
+    font-family: cursive;
+    position: fixed;
+    right: 50px;
+    top: 15px;
+}
+.userident:hover {
+    cursor: default;
+    text-decoration: none;
+    color: white;
+}
+    .btncreate {
+    position: fixed;
+    top: 15px;
+    left: 350px;
+    border: none;
+    background-color: transparent;
+    color: darkgray;
+    font-size: 16px;
+    display: inline;
+}
+.btnlog {
+    position: relative;
+    top: 15px;
+    left: 60px;
+    border: none;
+    background-color: transparent;
+    color: darkgray;
+    font-size: 16px;
+}
+    .btncreate:hover {
+        color: aliceblue;
+    }
+.btnlog:hover {
+        color: aliceblue;
+    }
+
+.inputtext {
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 3px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    width:300px;
+    font-size: 16px;
+}
+.btnadd {
+    background: Honeydew;
+}
+    .btnadd {
+    border-radius:5px;
+    color:black;
+    font-size: 16px;
+    width: 300px;
+    padding: .3em 1.5em;
+    margin-top: 8px;
+    margin-bottom: 10px;
+}
+.form-control-information {
+    border: 1px solid lightgrey;
+    border-radius: 5px;
+    height: 40px;
+    color: darkslategrey;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 20px;
+    width: 1000px;
+}
+.form-information {
+    border: 1px solid lightgrey;
+    border-radius: 5px;
+    color: darkslategrey;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 20px;
+}
+.control-label {
+    font: serif;
+    font-size: 16px;
+    margin-top: 10px
+}
+
+.form-select {
+    width: 300px;
+    height: 35px;
+    color: black;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 20px;
+}
+.fontinf {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 50px;
+}

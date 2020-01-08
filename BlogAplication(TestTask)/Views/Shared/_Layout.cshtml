@@ -9,6 +9,10 @@
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/css/site.css" />
+
+        <link rel="stylesheet" href="~/css/style.css" />
+        <link rel="stylesheet" href="~/css/newwstyle.css" />
+
     </environment>
     <environment exclude="Development">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
@@ -33,21 +37,26 @@
                 <ul class="nav navbar-nav">
                     @if (User.Identity.IsAuthenticated)
                     {
-                        @User.Identity.Name
                         <form method="post" asp-controller="Account" asp-action="Logout">
-                            <input type="submit" value="Logout">
+                            <input class="btnlog" type="submit" value="Logout">
                         </form>
+                        <a class="userident">
+                            @User.Identity.Name
+                        </a>
                     }
                     else
                     {
                         <li><a asp-area="" asp-controller="Account" asp-action="Login">Sign in</a></li>
                         <li><a asp-area="" asp-controller="Account" asp-action="Register">Sign up</a></li>
                     }
-                    @if (User.IsInRole("admin")) 
+                    @if (User.IsInRole("admin"))
                     {
-                        @Html.ActionLink("Create", "CreateNews")
+                        <form method="get" asp-controller="Home" asp-action="CreateNews">
+                            <input class="btncreate" type="submit" value="Create">
+                        </form>
+
                     }
-                </ul>
+                </ul>-
             </div>
         </div>
     </nav>
