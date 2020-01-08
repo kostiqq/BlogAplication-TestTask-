@@ -34,7 +34,7 @@ namespace BlogAplication.Services
             {
                 second = Convert.ToDateTime("10.01.2030");
             }
-            int pageSize = 10;
+            int pageSize = 2;
             IQueryable<News> source = context.news;
             if (SearchString != null)
             {
