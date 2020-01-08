@@ -1,42 +1,48 @@
-﻿@model BlogAplication.Models.News;
-
+﻿@model BlogAplication.Models.News
 @{
-    ViewData["Title"] = "Delete News";
+    ViewData["Title"] = "NewsView";
     Layout = "~/Views/Shared/_Layout.cshtml";
-
 }
-<link rel="stylesheet" href="~/css/site.css" />
 
-<link rel="stylesheet" href="~/css/style.css" />
-<link rel="stylesheet" href="~/css/newwstyle.css" />
-<form>
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.ShortDesc)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.ShortDesc)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.ImageLink)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.ImageLink)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Date)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Date)
-        </dd>
-    </dl>
-</form>
+<link rel="stylesheet" href="/css/newwstyle.css">
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/styleForreg.css">
+<fieldset>
+    <legend>Article</legend>
+    <form>
+        <form>
+            <table class="newstable">
+                <tr>
+                    <td>
+
+                        <p id="img">
+                            <img src="@Model.ImageLink" />
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+
+                    <td><p class="newsTag">@Html.DisplayFor(model => model.Tags)</p></td>
+                </tr>
+                <tr><td><p class="NameOfst">@Html.DisplayFor(model => model.Name)</p></td></tr>
+
+                <tr>
+                    <td>
+                        <p class="newsDateandCaregory">
+                            @Html.DisplayFor(model => model.Date)
+
+                        </p>
+                    </td>
+                </tr>
+
+            </table>
+
+        </form>
+
+    </form>
+</fieldset>
+
+
 <form asp-action="DeleteNews">
     <input type="submit" value="Delete" class="btn btn-default" /> |
     <a asp-action="Index">Back to List</a>
